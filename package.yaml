@@ -1,0 +1,60 @@
+name: aoc
+
+executables:
+  day1:
+    main: day1.hs
+  day2:
+    main: day2.hs
+
+source-dirs: src
+
+dependencies:
+- attoparsec
+- base
+- rio
+
+ghc-options:
+- -Weverything
+- -Wno-all-missed-specializations
+- -Wno-implicit-lift
+- -Wno-missed-specializations
+- -Wno-missing-exported-signatures
+- -Wno-missing-import-lists
+- -Wno-missing-kind-signatures
+- -Wno-missing-local-signatures
+- -Wno-missing-safe-haskell-mode
+- -Wno-monomorphism-restriction
+- -Wno-prepositive-qualified-module
+- -Wno-safe
+- -Wno-unsafe
+- -Wno-unticked-promoted-constructors
+- -Wno-unused-packages
+- -O2
+- -threaded
+- -rtsopts
+- '"-with-rtsopts=-N -qn1"'
+
+language: GHC2021
+
+default-extensions:
+- DataKinds
+- DefaultSignatures
+- DeriveAnyClass
+- DerivingStrategies
+- DuplicateRecordFields
+- FunctionalDependencies
+- GADTs
+- LambdaCase
+- LexicalNegation
+- LiberalTypeSynonyms
+- MultiWayIf
+- NoImplicitPrelude
+- NumDecimals
+- OverloadedRecordDot
+- OverloadedStrings
+- PatternSynonyms
+- QuasiQuotes
+- RecordWildCards
+- TemplateHaskell
+- TypeFamilies
+- ViewPatterns
