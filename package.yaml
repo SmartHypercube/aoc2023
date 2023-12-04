@@ -7,10 +7,13 @@ executables:
     main: day2.hs
   day3:
     main: day3.hs
+  day4:
+    main: day4.hs
 
 source-dirs: src
 
 dependencies:
+- array
 - attoparsec
 - base
 - rio
