@@ -13,6 +13,8 @@ executables:
     main: day5.hs
   day5b:
     main: day5b.hs
+  day6:
+    main: day6.hs
 
 source-dirs: src
 
