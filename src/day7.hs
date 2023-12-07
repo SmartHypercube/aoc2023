@@ -56,3 +56,4 @@ main = do
     text <- readFileUtf8 "data/day7.txt"
     let hands = fromRight (error "parse error") $ Parser.parseOnly (parser <* Parser.endOfInput) text
     print $ sum $ map (\((_, bid), rank) -> bid * rank) $ zip (List.sort hands) [1..]
+    putStrLn "Run `stack run day5b` to run the second part."
