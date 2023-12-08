@@ -1,4 +1,4 @@
-import Prelude (print)
+import Prelude (print, putStrLn)
 import RIO
 import qualified RIO.List as List
 import qualified RIO.Map as Map
