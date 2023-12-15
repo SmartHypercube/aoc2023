@@ -33,6 +33,8 @@ executables:
     main: day12b.hs
   day13:
     main: day13.hs
+  day14:
+    main: day14.hs
 
 source-dirs: src
 
