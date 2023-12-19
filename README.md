@@ -287,3 +287,5 @@ rn=1,cm-,qp=3,cm=2,qp-,pc=4,ot=9,ab=5,pc-,pc=6,ot=7
 [输入数据](data/day17.txt) [解题代码](src/day17.hs)
 
 这道题最开始没意识到应该是 Dijkstra 算法，做了一些错误的尝试。在按 Dijkstra 算法实现后，仍然有若干细节比较棘手，并且有的地方不同的选择可以产生较大的性能差异，导致搞了很久。最终版本的代码在我的电脑上需要 39 秒。
+
+P.S. 看了一下别人的代码，发现一个[巨大 bug](https://github.com/SmartHypercube/aoc2023-haskell/commit/61f94c7e8e1e43a5f3f497e77a93258e8cf27530)，笑死。现在在我的电脑上不到 1 秒了。
