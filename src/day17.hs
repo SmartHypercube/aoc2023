@@ -1,6 +1,7 @@
 import Prelude (print)
 import RIO hiding (Down, Left, Right)
 import qualified RIO.HashMap as HashMap
+import qualified RIO.HashSet as HashSet
 import qualified RIO.List.Partial as List'
 import qualified RIO.Partial as RIO'
 import qualified RIO.Set as Set
@@ -27,29 +28,33 @@ data Node = Node
 data Candidates = Candidates
     { nodeToHeatLoss :: !(HashMap Node Int)
     , heatLossToNodes :: !(Set (Int, Node))
+    , visited :: !(HashSet Node)
     }
 
 insertCandidate :: Node -> Int -> State.State Candidates ()
 insertCandidate node heatLoss = do
     candidates <- State.get
-    case HashMap.lookup node candidates.nodeToHeatLoss of
-        Nothing -> do
-            State.put $ candidates
-                { nodeToHeatLoss = HashMap.insert node heatLoss candidates.nodeToHeatLoss
-                , heatLossToNodes = Set.insert (heatLoss, node) candidates.heatLossToNodes
-                }
-        Just oldHeatLoss | oldHeatLoss <= heatLoss -> pure ()
-        Just oldHeatLoss -> do
-            State.put $ candidates
-                { nodeToHeatLoss = HashMap.insert node heatLoss candidates.nodeToHeatLoss
-                , heatLossToNodes = Set.insert (heatLoss, node) $ Set.delete (oldHeatLoss, node) candidates.heatLossToNodes
-                }
+    if HashSet.member node candidates.visited
+        then pure ()
+        else case HashMap.lookup node candidates.nodeToHeatLoss of
+            Nothing -> do
+                State.put $ candidates
+                    { nodeToHeatLoss = HashMap.insert node heatLoss candidates.nodeToHeatLoss
+                    , heatLossToNodes = Set.insert (heatLoss, node) candidates.heatLossToNodes
+                    }
+            Just oldHeatLoss | oldHeatLoss <= heatLoss -> pure ()
+            Just oldHeatLoss -> do
+                State.put $ candidates
+                    { nodeToHeatLoss = HashMap.insert node heatLoss candidates.nodeToHeatLoss
+                    , heatLossToNodes = Set.insert (heatLoss, node) $ Set.delete (oldHeatLoss, node) candidates.heatLossToNodes
+                    }
 
 deleteCandidate :: Node -> Int -> State.State Candidates ()
 deleteCandidate node heatLoss = do
     State.modify' $ \candidates -> candidates
         { nodeToHeatLoss = HashMap.delete node candidates.nodeToHeatLoss
         , heatLossToNodes = Set.delete (heatLoss, node) candidates.heatLossToNodes
+        , visited = HashSet.insert node candidates.visited
         }
 
 calc :: Int -> Int -> [Int] -> ((Int, Int) -> Int) -> State.State Candidates Int
@@ -80,7 +85,7 @@ main = do
         heatLossAt pos = RIO'.fromJust $ HashMap.lookup pos heatLossMap
         height = length $ lines $ Text.unpack text
         width = length $ List'.head $ lines $ Text.unpack text
-        solve stepRange = flip State.evalState (Candidates mempty mempty) $ do
+        solve stepRange = flip State.evalState (Candidates mempty mempty mempty) $ do
             let destination = (height - 1, width - 1)
             insertCandidate (Node destination [Up, Left]) (heatLossAt destination)
             result <- calc height width stepRange heatLossAt
