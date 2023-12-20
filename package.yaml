@@ -41,6 +41,8 @@ executables:
     main: day16.hs
   day17:
     main: day17.hs
+  day18:
+    main: day18.hs
 
 source-dirs: src
 
