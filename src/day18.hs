@@ -1,9 +1,5 @@
 import Prelude (print)
 import RIO hiding (Down, Left, Right)
-import qualified RIO.ByteString as ByteString
-import qualified RIO.HashMap as HashMap
-import qualified RIO.List as List
-import qualified RIO.State as State
 
 import qualified Data.Attoparsec.Text as Parser
 
@@ -44,7 +40,7 @@ parser2 :: Parser.Parser [Plan]
 parser2 = Parser.many1' $ do
     void $ Parser.anyChar
     Parser.skipSpace
-    void $ Parser.decimal
+    void $ Parser.decimal @Int
     Parser.skipSpace
     void "(#"
     steps_ <- Parser.take 5
